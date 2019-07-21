@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.utils
 
+import android.util.Log
+
 object Utils {
 
     fun parseFullName(fullName: String?): Pair<String?, String?> {
@@ -10,6 +12,8 @@ object Utils {
         if (firstName?.length == 0 ) {
             firstName = null
         }
+
+        Log.d("Utils", "test")
 
         // return Pair(firstName, lastName)
         return firstName to lastName
