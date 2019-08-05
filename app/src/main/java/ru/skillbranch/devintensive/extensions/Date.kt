@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.extensions
 
 import android.util.Log
+import java.lang.Math.abs
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -10,7 +11,7 @@ const val MINUTE = 60 * SECOND
 const val HOUR = 60 * MINUTE
 const val DAY = 24 * HOUR
 
-enum class TimeUnits { SECOND, MINUTE, HOUR, DAY,  }
+//enum class TimeUnits { SECOND, MINUTE, HOUR, DAY,  }
 
 
 fun String.toDate(pattern: String = "HH:mm:ss dd.MM.yy"): Date? = try {
@@ -77,5 +78,72 @@ fun Date.humanizeDiff(date: Date = Date()): String {
         in 365..Int.MAX_VALUE -> if((diff / DAY).toInt() > 0) "более года назад" else "более чем через год"
 
         else -> "никогда"
+    }
+}
+
+operator fun Date.minus(anoterDate:Date):Long = this.time - anoterDate.time
+
+operator fun Date.plusAssign(interval: Long) {
+    this.time += interval
+}
+
+operator fun Date.minusAssign(interval: Long) {
+    this.time -= interval
+}
+
+fun Date.add(value:Long, units: TimeUnits):Date {
+    this += units * value
+    return this
+}
+
+enum class TimeUnits {
+    SECOND,
+    MINUTE,
+    HOUR,
+    DAY;
+
+    operator fun times(value: Long):Long {
+        return value * when(this) {
+            SECOND -> 1000L
+            MINUTE -> SECOND * 60
+            HOUR -> MINUTE * 60
+            DAY -> HOUR * 24
+        }
+    }
+
+    fun plural(value:Long):String {
+        return "${abs(value)} " + when (this) {
+            SECOND -> {when (pluralForm(value)) {
+                0 -> "секунду"
+                1 -> "секунды"
+                else -> "секунд"
+            }
+            }
+            MINUTE -> {when (pluralForm(value)) {
+                0 -> "минуту"
+                1 -> "минуты"
+                else -> "минут"
+            }
+            }
+            HOUR -> {when (pluralForm(value)) {
+                0 -> "час"
+                1 -> "часа"
+                else -> "часов"
+            }
+            }
+            DAY -> {when (pluralForm(value)) {
+                0 -> "день"
+                1 -> "дня"
+                else -> "дней"
+            }
+            }
+        }
+    }
+
+    private fun pluralForm(value:Long):Int {
+        val absvalue = abs(value)
+        return if (absvalue%10==1L && absvalue%100!=11L) 0
+        else if (absvalue%10>=2L && absvalue%10<=4L && (absvalue%100<10L || absvalue%100>=20L)) 1
+        else 2
     }
 }

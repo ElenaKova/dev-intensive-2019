@@ -33,3 +33,7 @@ fun Activity.isKeyboardOpen(): Boolean {
 fun Activity.isKeyboardClosed(): Boolean {
     return this.isKeyboardOpen().not()
 }
+
+fun Activity.getRootView(): View {
+    return findViewById<View>(android.R.id.content)
+}

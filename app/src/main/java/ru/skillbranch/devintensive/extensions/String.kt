@@ -19,3 +19,5 @@ fun String.stripHtml(): String {
 
     return str.trim()
 }
+
+fun String.trimDoubleWhitespace() = this.replace(" {2,}".toRegex(), " ")
