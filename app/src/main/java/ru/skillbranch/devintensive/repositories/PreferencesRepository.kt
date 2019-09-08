@@ -57,5 +57,5 @@ object PreferencesRepository {
         }
         apply()
     }
-    
+
 }

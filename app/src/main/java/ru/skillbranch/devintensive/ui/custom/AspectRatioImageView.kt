@@ -25,7 +25,7 @@ class AspectRatioImageView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        val newHeigt = (measuredWidth/aspectRatio).toInt()
-        setMeasuredDimension(measuredWidth,newHeigt)
+        val newHeight = (measuredWidth/aspectRatio).toInt()
+        setMeasuredDimension(measuredWidth, newHeight)
     }
 }
